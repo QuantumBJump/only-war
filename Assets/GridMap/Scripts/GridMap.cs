@@ -2,16 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class GridMap<TGridObject> {
+
+    public event EventHandler<OnGridObjectChangedEventArgs> OnGridObjectChanged;
+    public class OnGridObjectChangedEventArgs: EventArgs {
+        public int x;
+        public int y;
+    }
+
     private int width;
     private int depth;
     private Vector3 originPosition;
     private float cellSize;
     private TGridObject[,] gridArray;
-    private TextMeshPro[,] debugTextArray;
-    public GridMap(int width, int depth, float cellSize, Vector3? originPosition = null)
-    {
+
+    // Constructor
+    public GridMap(int width, int depth, float cellSize, Func<GridMap<TGridObject>, int, int, TGridObject> createGridObject, Vector3? originPosition = null) {
         if (originPosition == null) {
             this.originPosition = Vector3.zero;
         } else {
@@ -22,28 +30,40 @@ public class GridMap<TGridObject> {
         this.cellSize = cellSize;
 
         gridArray = new TGridObject[width, depth];
-        debugTextArray = new TextMeshPro[width, depth];
 
-
-        for (int x=0; x < gridArray.GetLength(0); x++)
-        {
-            for (int y = 0; y < gridArray.GetLength(1); y++)
-            {
-                debugTextArray[x, y] = Utils.CreateWorldText(gridArray[x, y].ToString(), null, GetWorldPosition(x, y)+ new Vector3(cellSize/2f, 0.05f, cellSize/2f), 12, Color.black, TMPro.TextContainerAnchors.Middle);
-                DrawSquare(x, y);
+        for (int x = 0; x < gridArray.GetLength(0); x++) {
+            for (int y = 0; y < gridArray.GetLength(1); y++) {
+                gridArray[x, y] = createGridObject(this, x, y);
             }
+        }
+
+        bool showDebug = true;
+        if (showDebug) {
+            TextMeshPro[,] debugTextArray = new TextMeshPro[width, depth];
+            for (int x=0; x < gridArray.GetLength(0); x++)
+            {
+                for (int y = 0; y < gridArray.GetLength(1); y++)
+                {
+                    debugTextArray[x, y] = Utils.CreateWorldText(gridArray[x, y]?.ToString(), null, GetWorldPosition(x, y)+ new Vector3(cellSize/2f, 0.05f, cellSize/2f), 12, Color.black, TMPro.TextContainerAnchors.Middle);
+                    DrawSquare(x, y);
+                }
+            }
+
+            OnGridObjectChanged += (object sender, OnGridObjectChangedEventArgs eventArgs) => {
+                debugTextArray[eventArgs.x, eventArgs.y].text = gridArray[eventArgs.x, eventArgs.y]?.ToString();
+            };
         }
     }
 
-    private Vector3 GetWorldPosition(int x, int y)
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, 0, y) * cellSize + originPosition;
     }
 
-    private void GetXY(Vector3 worldPosition, out int x, out int y)
+    public void GetXZ(Vector3 worldPosition, out int x, out int z)
     {
         x = Mathf.FloorToInt((worldPosition - originPosition).x / cellSize);
-        y = Mathf.FloorToInt((worldPosition - originPosition).z / cellSize);
+        z = Mathf.FloorToInt((worldPosition - originPosition).z / cellSize);
     }
 
     private void DrawSquare(int x, int y)
@@ -66,24 +86,38 @@ public class GridMap<TGridObject> {
 
     }
 
-    public void SetValue(int x, int y, TGridObject value)
+    public int GetWidth() {
+        return width;
+    }
+
+    public int GetHeight() {
+        return depth;
+    }
+
+    public float GetCellSize() {
+        return cellSize;
+    }
+
+    public void SetGridObject(int x, int y, TGridObject value)
     {
         if (x >= 0 && y >= 0 && x < width && y < depth)
         {
             gridArray[x, y] = value;
-            debugTextArray[x, y].text = value.ToString();
+            if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
         }
     }
 
-    public void SetValue(Vector3 worldPosition, TGridObject value) {
-        int x, y;
-        GetXY(worldPosition, out x, out y);
-        if (x >= 0 && x < width && y >= 0 && y < depth) {
-            SetValue(x, y, value);
-        }
+    public void SetGridObject(Vector3 worldPosition, TGridObject value) {
+        int x, z;
+        GetXZ(worldPosition, out x, out z);
+        SetGridObject(x, z, value);
     }
 
-    public TGridObject GetValue(int x, int y) {
+    public void TriggerGridObjectChanged(int x, int y ) {
+        if (OnGridObjectChanged != null) OnGridObjectChanged(this, new OnGridObjectChangedEventArgs { x = x, y = y });
+    }
+
+    public TGridObject GetGridObject(int x, int y) {
         if (x >= 0 && x < width && y >= 0 && y < depth) {
             return gridArray[x, y];
         } else {
@@ -91,9 +125,9 @@ public class GridMap<TGridObject> {
         }
     }
 
-    public TGridObject GetValue(Vector3 worldPosition) {
-        int x, y;
-        GetXY(worldPosition, out x, out y);
-        return GetValue(x, y);
+    public TGridObject GetGridObject(Vector3 worldPosition) {
+        int x, z;
+        GetXZ(worldPosition, out x, out z);
+        return GetGridObject(x, z);
     }
 }
