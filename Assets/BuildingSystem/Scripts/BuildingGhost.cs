@@ -6,10 +6,12 @@ public class BuildingGhost : MonoBehaviour
 {
     private Transform visual;
     private PlacedObjectTypeSO placedObjectTypeSO;
+    public bool active;
 
     // Start is called before the first frame update
     void Start()
     {
+        this.active = false;
         RefreshVisual();
 
         GridBuildingSystem.Instance.OnSelectedChanged += Instance_OnSelectedChanged;
@@ -20,6 +22,7 @@ public class BuildingGhost : MonoBehaviour
     }
 
     private void LateUpdate() {
+        RefreshVisual();
         Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition();
         targetPosition.y = 1f;
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
@@ -31,6 +34,10 @@ public class BuildingGhost : MonoBehaviour
         if (visual != null) {
             Destroy(visual.gameObject);
             visual = null;
+        }
+
+        if (GameState.Instance.currentState != GameState.State.Building) {
+            return;
         }
 
         PlacedObjectTypeSO placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
@@ -50,4 +57,5 @@ public class BuildingGhost : MonoBehaviour
             SetLayerRecursive(child.gameObject, layer);
         }
     }
+
 }
