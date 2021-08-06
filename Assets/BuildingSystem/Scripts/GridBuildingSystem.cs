@@ -146,4 +146,12 @@ public class GridBuildingSystem : MonoBehaviour
     public PlacedObjectTypeSO GetPlacedObjectTypeSO() {
         return placedObjectType;
     }
+
+    public PlacedObject GetPlacedObject() {
+        Vector3 mousePos = Utils.GetMouseWorldPosition();
+        grid.GetXZ(mousePos, out int x, out int z);
+        GridObject gridObject = grid.GetGridObject(x, z);
+        PlacedObject placedObject = gridObject.GetPlacedObject();
+        return placedObject;
+    }
 }

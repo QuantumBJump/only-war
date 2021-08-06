@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputHandler : MonoBehaviour
 {
     private enum State {
+        Default,
         Selection,
         Build,
     }
@@ -12,6 +13,7 @@ public class InputHandler : MonoBehaviour
     private State currentState;
 
     private GridBuildingSystem gridBuilder;
+    private GridMap<GridBuildingSystem.GridObject> grid;
 
 
     private void Start() {
@@ -47,7 +49,7 @@ public class InputHandler : MonoBehaviour
         if (GameState.Instance.currentState == GameState.State.Building) {
             // Leave building mode
             if (Input.GetKeyDown(KeyCode.Escape)) {
-                GameState.Instance.currentState = GameState.State.Default;
+                GameState.Instance.currentState = GameState.State.Selection;
             }
 
             // Rotate building
@@ -65,17 +67,18 @@ public class InputHandler : MonoBehaviour
             if (Input.GetMouseButtonDown(1)) { gridBuilder.DemolishBuilding(); }
         }
 
+        if (GameState.Instance.currentState == GameState.State.Selection) {
+            if (Input.GetMouseButtonDown(0)) {
+                PlacedObject selectObject = gridBuilder.GetPlacedObject();
+                GameState.Instance.SelectObject(selectObject);
+            }
+        }
+
         // State changes
         if (Input.GetKeyDown(KeyCode.B)) {
             Debug.Log("Game state: Building");
             GameState.Instance.currentState = GameState.State.Building;
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape)) {
-            if (GameState.Instance.currentState == GameState.State.Building) {
-                Debug.Log("Game state: Default");
-                GameState.Instance.currentState = GameState.State.Default;
-            }
-        }
     }
 }
