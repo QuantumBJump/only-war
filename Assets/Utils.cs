@@ -7,7 +7,7 @@ public static class Utils
 {
 
     public const int sortingOrderDefault = 5000;
-    private const int floorLayerMask = 1 << 3;
+    public const int floorLayerMask = 1 << 3;
 
     public static TextMeshPro CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), int fontSize = 40, Color? color = null, TextContainerAnchors textAnchor = TextContainerAnchors.Middle, TextAlignmentOptions textAlignment = TextAlignmentOptions.Center, int sortingOrder = sortingOrderDefault)
     {

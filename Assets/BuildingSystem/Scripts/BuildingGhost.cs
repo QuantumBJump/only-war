@@ -12,7 +12,6 @@ public class BuildingGhost : MonoBehaviour
     void Start()
     {
         this.active = false;
-        RefreshVisual();
 
         GridBuildingSystem.Instance.OnSelectedChanged += Instance_OnSelectedChanged;
     }

@@ -22,9 +22,14 @@ public class GridBuildingSystem : MonoBehaviour
             int gridHeight = 10;
             float cellSize = 5f;
             grid = new GridMap<GridObject>(gridWidth, gridHeight, cellSize, (GridMap<GridObject> g, int x, int z) => new GridObject(g, x, z));
-
-            placedObjectType = placedObjectTypesList[0];
         }
+    }
+
+    private void Start() {
+        placedObjectType = placedObjectTypesList[2];
+        PlaceBuilding(0, 0);
+        placedObjectType = placedObjectTypesList[0];
+
     }
 
     public class GridObject {
@@ -78,9 +83,13 @@ public class GridBuildingSystem : MonoBehaviour
     public void PlaceBuilding() {
         grid.GetXZ(Utils.GetMouseWorldPosition(), out int x, out int z);
 
-        List<Vector2Int> gridPositionList = placedObjectType.GetGridPositionList(new Vector2Int(x, z), dir);
+        PlaceBuilding(x, z);
+    }
 
-        // Check if the new object overlaps with anything else
+    private void PlaceBuilding(int x, int z) {
+        PlacedObjectTypeSO toPlace = placedObjectType;
+        List<Vector2Int> gridPositionList = toPlace.GetGridPositionList(new Vector2Int(x, z), dir);
+
         bool buildable = true;
         foreach (Vector2Int pos in gridPositionList) {
             if (pos.x < 0 || pos.x >= grid.GetWidth() || pos.y < 0 || pos.y >= grid.GetHeight()) {
@@ -88,11 +97,12 @@ public class GridBuildingSystem : MonoBehaviour
                 return;
             }
             if (!grid.GetGridObject(pos.x, pos.y).CanBuild()) {
-                // cannot build here
+                // Cannot build here
                 buildable = false;
                 break;
             }
         }
+
         if (buildable) {
             Vector2Int rotationOffset = placedObjectType.GetRotationOffset(dir);
             Vector3 builtWorldPosition = grid.GetWorldPosition(x, z) + new Vector3(rotationOffset.x, 0, rotationOffset.y) * grid.GetCellSize();
@@ -100,6 +110,7 @@ public class GridBuildingSystem : MonoBehaviour
 
             foreach (Vector2Int gridPosition in gridPositionList) {
                 grid.GetGridObject(gridPosition.x, gridPosition.y).SetPlacedObject(built);
+                Pathfinding.Instance.GetNode(gridPosition.x, gridPosition.y).SetWalkable(false);
             }
         }
     }
@@ -114,6 +125,7 @@ public class GridBuildingSystem : MonoBehaviour
 
             foreach (Vector2Int pos in gridPositionList) {
                 grid.GetGridObject(pos.x, pos.y).ClearPlacedObject();
+                Pathfinding.Instance.GetNode(pos.x, pos.y).SetWalkable(true);
             }
         }
     }

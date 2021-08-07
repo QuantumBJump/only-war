@@ -19,7 +19,7 @@ public class GridMap<TGridObject> {
     private TGridObject[,] gridArray;
 
     // Constructor
-    public GridMap(int width, int depth, float cellSize, Func<GridMap<TGridObject>, int, int, TGridObject> createGridObject, Vector3? originPosition = null) {
+    public GridMap(int width, int depth, float cellSize, Func<GridMap<TGridObject>, int, int, TGridObject> createGridObject, Vector3? originPosition = null, bool showDebug = false) {
         if (originPosition == null) {
             this.originPosition = Vector3.zero;
         } else {
@@ -37,7 +37,6 @@ public class GridMap<TGridObject> {
             }
         }
 
-        bool showDebug = true;
         if (showDebug) {
             TextMeshPro[,] debugTextArray = new TextMeshPro[width, depth];
             for (int x=0; x < gridArray.GetLength(0); x++)

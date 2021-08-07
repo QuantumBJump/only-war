@@ -32,4 +32,9 @@ public class PlacedObject : MonoBehaviour {
     public void DestroySelf() {
         Destroy(gameObject);
     }
+
+    public void GetOrigin(out int x, out int y) {
+        x = origin.x;
+        y = origin.y;
+    }
 }
