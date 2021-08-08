@@ -22,6 +22,16 @@ public class Pathfinding {
         return grid;
     }
 
+
+    public List<Vector3> FindPath_Vectors(int startX, int startY, int endX, int endY) {
+        List<PathNode> nodeList = FindPath(startX, startY, endX, endY);
+        List<Vector3> vectorList = new List<Vector3>();
+        foreach (PathNode node in nodeList) {
+            vectorList.Add(new Vector3(node.x, 0, node.y) * grid.GetCellSize());
+        }
+        return vectorList;
+    }
+
     public List<PathNode> FindPath(int startX, int startY, int endX, int endY) {
         PathNode startNode = grid.GetGridObject(startX, startY);
         PathNode endNode = grid.GetGridObject(endX, endY);
