@@ -19,9 +19,11 @@ public class GameState : MonoBehaviour
     public event EventHandler OnStateChanged;
     public State currentState;
 
-    public void Start() {
+    private void Awake() {
         Instance = this;
+    }
 
+    public void Start() {
         currentState = State.Default;
         pathfinding = new Pathfinding(10, 10);
         Test3DGrid testGrid = new Test3DGrid(10, 3, 10);

@@ -32,19 +32,13 @@ public class CameraHandler : MonoBehaviour
         UpdateDirections();
         this.transform.position = Vector3.Lerp(this.transform.position, targetPos, Time.deltaTime * 15f);
         if (targetRot != 0) {
-            Debug.Log("Target rotation: " + targetRot);
             float direction = Mathf.Sign(targetRot);
-            Vector3 pivot;
-            Ray ray = new Ray(this.transform.position, this.transform.forward);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, 999f, Utils.floorLayerMask)) {
-                pivot = hitInfo.point;
-                float rotateSpeed = Mathf.Min(360f * Time.deltaTime, Mathf.Abs(targetRot));
-                float rotateVelocity = direction * rotateSpeed;
-                this.transform.RotateAround(pivot, Vector3.down, rotateVelocity);
-                targetPos = this.transform.position; // Stop the camera from fighting the rotation
-                targetRot -= rotateVelocity;
-            }
+            Vector3 pivot = lookLocation();
+            float rotateSpeed = Mathf.Min(360f * Time.deltaTime, Mathf.Abs(targetRot));
+            float rotateVelocity = direction * rotateSpeed;
+            this.transform.RotateAround(pivot, Vector3.down, rotateVelocity);
+            targetPos = this.transform.position;
+            targetRot -= rotateVelocity;
         }
     }
     public void MoveLeft() {
