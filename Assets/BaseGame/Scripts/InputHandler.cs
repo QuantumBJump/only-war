@@ -79,6 +79,7 @@ public class InputHandler : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha2)) { gridBuilder.SelectBuilding(2); }
             if (Input.GetKeyDown(KeyCode.Alpha3)) { gridBuilder.SelectBuilding(3); }
             if (Input.GetKeyDown(KeyCode.Alpha4)) { gridBuilder.SelectBuilding(4); }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) { gridBuilder.SelectBuilding(5); }
 
             if (Input.GetMouseButtonDown(0)) { gridBuilder.PlaceBuilding(); }
             if (Input.GetMouseButtonDown(1)) { gridBuilder.DemolishBuilding(); }

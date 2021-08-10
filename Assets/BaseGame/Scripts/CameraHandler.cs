@@ -11,11 +11,13 @@ public class CameraHandler : MonoBehaviour
 
     private float targetRot;
 
+    private int y_level;
+
     // Directions
     private Vector3 forward;
     private Vector3 right;
     private const float cameraSpeed = 50f;
-    private const float verticalSpeed = 2f;
+    private const float verticalSpeed = 5f;
     private const float MIN_Y = 10f;
     private const float MAX_Y = 30f;
     // Start is called before the first frame update
@@ -76,11 +78,11 @@ public class CameraHandler : MonoBehaviour
     }
 
     public void RotateRight() {
-        targetRot += 90f;
+        targetRot += 45f;
     }
 
     public void RotateLeft() {
-        targetRot -= 90f;
+        targetRot -= 45f;
     }
 
     private void UpdateDirections() {
@@ -92,6 +94,28 @@ public class CameraHandler : MonoBehaviour
         r.Normalize();
         forward = f;
         right = r;
+    }
+
+    public void SetLookLocation(Vector3 target) {
+        Vector3 currentOffset = lookLocation() - this.transform.position;
+        targetPos = target - currentOffset;
+    }
+
+    private Vector3 lookLocation() {
+        Ray ray = new Ray(this.transform.position, this.transform.forward);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 999f, Utils.floorLayerMask)) {
+            return hitInfo.point;
+        }
+        return Vector3.zero;
+    }
+
+    private void UpdateYLevel() {
+        y_level = (int)(this.transform.position.y - 15f + 0.5f);
+    }
+
+    public int GetYLevel() {
+        return this.y_level;
     }
 
 }

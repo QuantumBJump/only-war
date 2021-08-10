@@ -24,6 +24,8 @@ public class GameState : MonoBehaviour
 
         currentState = State.Default;
         pathfinding = new Pathfinding(10, 10);
+        Test3DGrid testGrid = new Test3DGrid(10, 3, 10);
+        CameraHandler.Instance.SetLookLocation(pathfinding.GetGrid().GetGridObject(0, 0).GetCenter());
         OnStateChanged += StateChanged_Deselect;
     }
 
@@ -41,5 +43,9 @@ public class GameState : MonoBehaviour
 
     public void TriggerStateUpdate() {
         OnStateChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public Pathfinding GetPathfinder() {
+        return pathfinding;
     }
 }

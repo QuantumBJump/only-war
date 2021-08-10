@@ -123,6 +123,10 @@ public class GridMap3D<TGridObject> {
     }
 
     public int GetHeight() {
+        return height;
+    }
+
+    public int GetDepth() {
         return depth;
     }
 

@@ -37,4 +37,8 @@ public class PlacedObject : MonoBehaviour {
         x = origin.x;
         y = origin.y;
     }
+
+    public TileContent GetTileContent() {
+        return objectType.tileContentType;
+    }
 }

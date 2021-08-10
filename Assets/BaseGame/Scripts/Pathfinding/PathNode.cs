@@ -7,6 +7,11 @@ public class PathNode {
     private GridMap<PathNode> grid;
     public int x;
     public int y;
+    public int z;
+    const int fullTraversal = 67108863; // 26 1s
+
+    private int canExit;
+    private int canEnter;
 
     public int gCost;
     public int hCost;
