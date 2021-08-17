@@ -126,11 +126,23 @@ public class GridNode3D {
 
 
     public void PopulateWalls() {
-        Debug.Log("Gamestate: " + GameState.Instance.defaultWallType.ToString());
-
         // Check each facing
         // For each facing which ISN'T already populated,
         for (int i = 0; i < 6; i++) {
+            WallTypeSO toPlace;
+            switch ((Facing)i) {
+                default:
+                case Facing.North:
+                case Facing.East:
+                case Facing.South:
+                case Facing.West:
+                    toPlace = GameState.Instance.wallTypes[0];
+                    break;
+                case Facing.Up:
+                case Facing.Down:
+                    toPlace = GameState.Instance.wallTypes[1];
+                    break;
+            }
             // Go through each of this tile's facings
             if (this.walls[i] != null) {
                 // If the facing is already populated, we can skip it
@@ -146,14 +158,14 @@ public class GridNode3D {
                     continue;
                 } else {
                     // If they don't already have a wall, set our wall and their wall to a new object
-                    Wall newWall = Wall.Create(WallPosition((Facing)i), (Facing)i, GameState.Instance.defaultWallType);
+                    Wall newWall = Wall.Create(WallPosition((Facing)i), (Facing)i, toPlace);
                     this.walls[i] = newWall;
                     neighbour.walls[(int)oppositeFacing((Facing)i)] = newWall;
                     continue;
                 }
             } else {
                 // if there's no neighbour, we'll need to do it ourselves.
-                Wall newWall = Wall.Create(WallPosition((Facing)i), (Facing)i, GameState.Instance.defaultWallType);
+                Wall newWall = Wall.Create(WallPosition((Facing)i), (Facing)i, toPlace);
                 this.walls[i] = newWall;
             }
         }
