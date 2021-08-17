@@ -5,11 +5,9 @@ using UnityEngine;
 public class UnitControl : MonoBehaviour
 {
 
-    private bool selected;
     // Start is called before the first frame update
     void Start()
     {
-        selected = false;
     }
 
     // Update is called once per frame

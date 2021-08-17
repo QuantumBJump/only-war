@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public enum TileContent {
-    FullTile, // Occupies the full tile
-    Floor,  // is a floor
-    EastWest, // Wall exists east-west, like: --
-    NorthSouth, // Wall exists north-south, like: |
+public enum Facing {
+    North,
+    East,
+    South,
+    West,
+    Up,
+    Down,
 }
+
 public class Test3DGrid {
     public static Test3DGrid Instance {get; private set;}
     private GridMap3D<GridNode3D> grid;
@@ -50,11 +52,30 @@ public class GridNode3D {
         return (placedObject == null);
     }
 
+    public GridNode3D GetTileInDirection(Facing direction) {
+        switch (direction) {
+        case Facing.North:
+            return grid.GetGridObject(this.x, this.y, this.z+1);
+        case Facing.East:
+            return grid.GetGridObject(this.x+1, this.y, this.z);
+        case Facing.South:
+            return grid.GetGridObject(this.x, this.y, this.z-1);
+        case Facing.West:
+            return grid.GetGridObject(this.x-1, this.y, this.z);
+        case Facing.Up:
+            return grid.GetGridObject(this.x, this.y+1, this.z);
+        case Facing.Down:
+            return grid.GetGridObject(this.x, this.y-1, this.z);
+        default:
+            return null;
+        }
+    }
+
 }
 
 
 public class Wall {
-    public Wall(int x, int y, int z) {
+    public Wall() {
     }
 
 }

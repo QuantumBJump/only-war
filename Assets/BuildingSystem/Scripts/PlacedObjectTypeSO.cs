@@ -28,8 +28,6 @@ public class PlacedObjectTypeSO : ScriptableObject
     public int width;
     public int depth;
 
-    public TileContent tileContentType;
-
     public Vector2Int GetRotationOffset(Dir dir) {
         switch (dir) {
             default:
