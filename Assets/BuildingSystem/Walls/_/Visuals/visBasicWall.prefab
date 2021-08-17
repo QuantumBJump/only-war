@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6034517575563767356}
   m_Layer: 0
-  m_Name: visWallEW
+  m_Name: visBasicWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,7 +91,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 54c14e9c6ffb7c44b8c7c3fe431cc1ef, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

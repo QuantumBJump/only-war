@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3331940205888607387}
-  - component: {fileID: -8844943033341864862}
+  - component: {fileID: -6595001515080052738}
   m_Layer: 0
-  m_Name: pfWallEW
+  m_Name: pfBasicWall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8844943033341864862
+--- !u!114 &-6595001515080052738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 137373278290763075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00577beb3c3b7db43a9e7fcff0349605, type: 3}
+  m_Script: {fileID: 11500000, guid: e34e5532937d67e43abdc3923998f5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5692252957188788323
@@ -105,6 +105,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3331940205888607387}
     m_Modifications:
+    - target: {fileID: 868732347470977784, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 868732347470977784, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 887248081541615685, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
       propertyPath: m_Name
       value: Visual

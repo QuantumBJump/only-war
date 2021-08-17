@@ -15,6 +15,8 @@ public class GameState : MonoBehaviour
         Selected,
         Building,
     }
+    [SerializeField] public WallTypeSO defaultWallType;
+
     
     public event EventHandler OnStateChanged;
     public State currentState;

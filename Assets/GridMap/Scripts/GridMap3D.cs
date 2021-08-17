@@ -36,8 +36,10 @@ public class GridMap3D<TGridObject> {
 
         for (int x = 0; x < gridArray.GetLength(0); x++) {
             for (int y = 0; y < gridArray.GetLength(1); y++) {
-                for (int z = 0; z < gridArray.GetLength(2); z++)
-                gridArray[x, y, z] = createGridObject(this, x, y, z);
+                for (int z = 0; z < gridArray.GetLength(2); z++) {
+                    TGridObject newObject = createGridObject(this, x, y, z);
+                    gridArray[x, y, z] = newObject;
+                }
             }
         }
 
@@ -62,6 +64,10 @@ public class GridMap3D<TGridObject> {
 
     public Vector3 GetWorldPosition(int x, int y, int z) {
         return new Vector3(x, y, z) * cellSize + originPosition;
+    }
+
+    public Vector3 GetCenter(int x, int y, int z) {
+        return GetWorldPosition(x, y, z) + (new Vector3(0.5f, 0.5f, 0.5f) * cellSize);
     }
 
     public void GetXYZ(Vector3 worldPosition, out int x, out int y, out int z)
