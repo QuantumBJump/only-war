@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ef7cfdc03d25546a7a60f0f159330c, type: 3}
   m_Name: Basic Floor
   m_EditorClassIdentifier: 
-  nameString: 
-  prefab: {fileID: 0}
-  visual: {fileID: 0}
+  nameString: Basic Floor
+  prefab: {fileID: 5806835651145975256, guid: 3960e45ebb74c0041b16941030b2165e, type: 3}
+  visual: {fileID: 5618764578956467984, guid: 37b710b852fd8fe40880d0d9d75bc3f7, type: 3}
   facing: 0
