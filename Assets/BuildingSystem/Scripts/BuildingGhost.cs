@@ -8,10 +8,14 @@ public class BuildingGhost : MonoBehaviour
     private PlacedObjectTypeSO placedObjectTypeSO;
     public bool active;
 
+    private GameState.State state;
+
     // Start is called before the first frame update
     void Start()
     {
         this.active = false;
+
+        GameState.Instance.OnStateChanged += Instance_OnSelectedChanged;
 
         GridBuildingSystem.Instance.OnSelectedChanged += Instance_OnSelectedChanged;
     }
@@ -21,9 +25,9 @@ public class BuildingGhost : MonoBehaviour
     }
 
     private void LateUpdate() {
-        RefreshVisual();
-        Vector3 targetPosition = GridBuildingSystem.Instance.GetMouseWorldSnappedPosition();
-        targetPosition.y = 1f;
+        Vector3 targetPosition = Utils.GetMouseWorldPositionAtCameraY();
+        targetPosition = GridBuildingSystem.Instance.SnapWorldPositionToGrid(targetPosition);
+        targetPosition += new Vector3(0, 1f, 0);
         transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 15f);
 
         transform.rotation = Quaternion.Lerp(transform.rotation, GridBuildingSystem.Instance.GetPlacedObjectRotation(), Time.deltaTime * 15f);

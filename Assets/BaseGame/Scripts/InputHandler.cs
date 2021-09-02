@@ -93,8 +93,10 @@ public class InputHandler : MonoBehaviour
             }
 
             if (Input.GetMouseButtonDown(0)) {
-                PlacedObject selectObject = gridBuilder.GetPlacedObject();
-                GameState.Instance.SelectObject(selectObject);
+                IPlaceable selectObject = gridBuilder.GetPlacedObject();
+                if (selectObject.GetType() == typeof(PlacedObject)) {
+                    GameState.Instance.SelectObject((PlacedObject)selectObject);
+                }
             }
         }
 

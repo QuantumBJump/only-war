@@ -26,6 +26,7 @@ public class CameraHandler : MonoBehaviour
         Instance = this;
         targetPos = this.transform.position;
         UpdateDirections();
+        UpdateYLevel();
     }
 
     void LateUpdate() {
@@ -61,6 +62,7 @@ public class CameraHandler : MonoBehaviour
             float difference = MAX_Y - targetPos.y;
             targetPos += new Vector3(0, difference, 0);
         }
+        UpdateYLevel();
     }
 
     public void MoveDown() {
@@ -69,6 +71,7 @@ public class CameraHandler : MonoBehaviour
             float difference = MIN_Y - targetPos.y;
             targetPos += new Vector3(0, difference, 0);
         }
+        UpdateYLevel();
     }
 
     public void RotateRight() {
@@ -105,7 +108,11 @@ public class CameraHandler : MonoBehaviour
     }
 
     private void UpdateYLevel() {
-        y_level = (int)(this.transform.position.y - 15f + 0.5f);
+        y_level = (int)(this.targetPos.y - 10f + 0.5f);
+        if (y_level < 0) {
+            y_level = 0;
+        }
+        if (y_level > 15) { y_level = 15; }
     }
 
     public int GetYLevel() {

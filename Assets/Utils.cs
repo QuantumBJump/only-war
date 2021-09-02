@@ -57,7 +57,7 @@ public static class Utils
 
     public static Vector3 GetMouseWorldPositionAtCameraY() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Plane hPlane = new Plane(Vector3.up, new Vector3(0, CameraHandler.Instance.GetYLevel(), 0));
+        Plane hPlane = new Plane(Vector3.up, new Vector3(0, CameraHandler.Instance.GetYLevel() + 0.1f, 0));
         if (hPlane.Raycast(ray, out float distance)) {
             return ray.GetPoint(distance);
         }

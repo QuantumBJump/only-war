@@ -171,7 +171,7 @@ public class GridMap3D<TGridObject> {
         return GetGridObject(x, y, z);
     }
 
-    private bool InBounds(int x, int y, int z) {
+    public bool InBounds(int x, int y, int z) {
         return (x >= 0 && x < width && y >= 0 && y < height && z >= 0 && z < depth);
     }
 }

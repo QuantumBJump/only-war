@@ -21,6 +21,8 @@ public class GameState : MonoBehaviour
     public event EventHandler OnStateChanged;
     public State currentState;
 
+    public int y_level;
+
     private void Awake() {
         Instance = this;
     }

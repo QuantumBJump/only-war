@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlacedObject : MonoBehaviour {
-    public static PlacedObject Create(Vector3 worldPosition, Vector2Int origin, PlacedObjectTypeSO.Dir dir, PlacedObjectTypeSO placedObjectType) {
+public class PlacedObject : MonoBehaviour, IPlaceable {
+    public static PlacedObject Create(Vector3 worldPosition, Vector3Int origin, PlacedObjectTypeSO.Dir dir, PlacedObjectTypeSO placedObjectType) {
         Transform placedObjectTransform =
             Instantiate(
                 placedObjectType.prefab,
@@ -19,14 +19,14 @@ public class PlacedObject : MonoBehaviour {
         return placedObject;
     }
     private PlacedObjectTypeSO objectType;
-    private Vector2Int origin;
+    private Vector3Int origin;
     private PlacedObjectTypeSO.Dir dir;
 
     public override string ToString() {
         return this.objectType.nameString;
     }
 
-    public List<Vector2Int> GetGridPositionList() {
+    public List<Vector3Int> GetGridPositionList() {
         return objectType.GetGridPositionList(origin, dir);
     }
     public void DestroySelf() {
