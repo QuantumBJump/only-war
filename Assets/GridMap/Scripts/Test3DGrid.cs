@@ -9,6 +9,26 @@ public enum Facing {
     West,
     Up,
     Down,
+    NorthEast,
+    NorthWest,
+    SouthEast,
+    SouthWest,
+    NorthUp,
+    EastUp,
+    SouthUp,
+    WestUp,
+    NorthEastUp,
+    NorthWestUp,
+    SouthEastUp,
+    SouthWestUp,
+    NorthDown,
+    EastDown,
+    SouthDown,
+    WestDown,
+    NorthEastDown,
+    NorthWestDown,
+    SouthEastDown,
+    SouthWestDown
 }
 
 public class Test3DGrid {
@@ -19,6 +39,10 @@ public class Test3DGrid {
     public Test3DGrid(int width, int height, int depth) {
         Instance = this;
         grid = new GridMap3D<GridNode3D>(width, height, depth, 5f, (GridMap3D<GridNode3D> g, int x, int y, int z) => new GridNode3D(g, x, y, z), Vector3.zero, true);
+    }
+
+    public GridMap3D<GridNode3D> GetGrid() {
+        return grid;
     }
 
 }
@@ -41,6 +65,7 @@ public class GridNode3D {
         this.y = y;
         this.z = z;
         this.walls = new Wall[6];
+        this.pathNode = new PathNode(this.grid, this.x, this.y, this.z);
         PopulateWalls();
     }
 
@@ -56,20 +81,46 @@ public class GridNode3D {
     public GridNode3D GetTileInDirection(Facing direction) {
         switch (direction) {
         case Facing.North:
-            return grid.GetGridObject(this.x, this.y, this.z+1);
+            return GetTileRelative(0, 0, 1);
         case Facing.East:
-            return grid.GetGridObject(this.x+1, this.y, this.z);
+            return GetTileRelative(1, 0, 0);
         case Facing.South:
-            return grid.GetGridObject(this.x, this.y, this.z-1);
+            return GetTileRelative(0, 0, -1);
         case Facing.West:
-            return grid.GetGridObject(this.x-1, this.y, this.z);
+            return GetTileRelative(-1, 0, 0);
         case Facing.Up:
-            return grid.GetGridObject(this.x, this.y+1, this.z);
+            return GetTileRelative(0, 1, 0);
         case Facing.Down:
-            return grid.GetGridObject(this.x, this.y-1, this.z);
+            return GetTileRelative(0, -1, 0);
         default:
             return null;
         }
+    }
+
+    public List<GridNode3D> GetAllNeighbours() {
+        List<GridNode3D> neighbours = new List<GridNode3D>();
+
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                for (int z = -1; z < 2; z++) {
+                    if (x == 0 && y == 0 && z == 0) {
+                        // Skip the actual tile
+                        continue;
+                    }
+                    neighbours.Add(GetTileRelative(x, y, z));
+                }
+            }
+        }
+
+        return neighbours;
+    }
+
+    public GridNode3D GetTileRelative(int xDirection, int yDirection, int zDirection) {
+        int neighbourX = this.x + xDirection;
+        int neighbourY = this.y + yDirection;
+        int neighbourZ = this.z + zDirection;
+
+        return grid.GetGridObject(neighbourX, neighbourY, neighbourZ);
     }
 
     // Gets the world position of the wall on a given facing
@@ -172,4 +223,7 @@ public class GridNode3D {
         }
     }
 
+    public PathNode GetPathNode() {
+        return pathNode;
+    }
 }

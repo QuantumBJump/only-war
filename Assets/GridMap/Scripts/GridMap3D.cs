@@ -124,6 +124,7 @@ public class GridMap3D<TGridObject> {
 
     }
 
+
     public int GetWidth() {
         return width;
     }

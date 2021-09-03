@@ -113,9 +113,9 @@ public class InputHandler : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0)) {
                     Vector3 mousePos = Utils.GetMouseWorldPosition();
-                    Pathfinding.Instance.GetGrid().GetXZ(mousePos, out int endX, out int endZ);
+                    Pathfinding.Instance.GetGrid().GetXYZ(mousePos, out int endX, out int endY, out int endZ);
                     selected.GetOrigin(out int startX, out int startZ);
-                    List<PathNode> path = Pathfinding.Instance.FindPath(startX, startZ, endX, endZ);
+                    List<PathNode> path = Pathfinding.Instance.FindPath(startX, 0, startZ, endX, endY, endZ);
                     if (path != null) {
                         for (int i = 0; i < path.Count-1; i++) {
                             Debug.DrawLine(

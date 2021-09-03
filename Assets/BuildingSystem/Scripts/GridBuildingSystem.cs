@@ -80,22 +80,22 @@ public class GridBuildingSystem : MonoBehaviour
             return;
         }
         placedObjectType = placedObjectTypesList[building];
+        RefreshSelectedObjectType();
     }
 
     public void PlaceBuilding() {
-        grid.GetXYZ(Utils.GetMouseWorldPosition(), out int x, out int y, out int z);
+        grid.GetXYZ(Utils.GetMouseWorldPositionAtCameraY(), out int x, out int y, out int z);
 
         PlaceBuilding(x, y, z);
     }
 
     private void PlaceBuilding(int x, int y, int z) {
-        Debug.Log("Placing building at " + x + ", " + y + ", " + z);
         PlacedObjectTypeSO toPlace = placedObjectType;
         List<Vector3Int> gridPositionList = toPlace.GetGridPositionList(new Vector3Int(x, y, z), dir);
 
         bool buildable = true;
         foreach (Vector3Int pos in gridPositionList) {
-            if (grid.InBounds(x, y, z)) {
+            if (grid.InBounds(pos.x, pos.y, pos.z)) {
                 if (!grid.GetGridObject(pos.x, pos.y, pos.z).CanBuild()) {
                     // Cannot build here
                     buildable = false;
@@ -113,7 +113,7 @@ public class GridBuildingSystem : MonoBehaviour
 
             foreach (Vector3Int gridPosition in gridPositionList) {
                 grid.GetGridObject(gridPosition.x, gridPosition.y, gridPosition.z).SetPlacedObject(built);
-                Pathfinding.Instance.GetNode(gridPosition.x, gridPosition.z).SetWalkable(false);
+                Pathfinding.Instance.GetNode(gridPosition.x, gridPosition.y, gridPosition.z).SetWalkable(false);
             }
         }
     }
@@ -128,7 +128,7 @@ public class GridBuildingSystem : MonoBehaviour
 
             foreach (Vector3Int pos in gridPositionList) {
                 grid.GetGridObject(pos.x, pos.y, pos.z).ClearPlacedObject();
-                Pathfinding.Instance.GetNode(pos.x, pos.y).SetWalkable(true);
+                Pathfinding.Instance.GetNode(pos.x, pos.y, pos.z).SetWalkable(true);
             }
         }
     }

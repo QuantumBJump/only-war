@@ -10,6 +10,8 @@ public class WallTypeSO : ScriptableObject
     public Transform visual;
     public Facing facing;
 
+    public bool traversible;
+
     public int GetRotationAngle(Facing facing) {
         switch (facing) {
             default: return 0;

@@ -16,5 +16,5 @@ MonoBehaviour:
   prefab: {fileID: 3331940205888607387, guid: 131a9a8a62780cf449eb741d636d6e6b, type: 3}
   visual: {fileID: 6034517575563767356, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
   width: 1
+  height: 1
   depth: 1
-  tileContentType: 0
