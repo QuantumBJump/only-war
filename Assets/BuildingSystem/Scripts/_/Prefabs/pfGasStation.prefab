@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5950528276002954247}
   - component: {fileID: 2298967892325423276}
+  - component: {fileID: 6781825890509971369}
   m_Layer: 0
   m_Name: pfGasStation
   m_TagString: Untagged
@@ -73,6 +74,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00577beb3c3b7db43a9e7fcff0349605, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6781825890509971369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7233898118200576327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47833e942ee3b22478292417337bab5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3724885399869720853

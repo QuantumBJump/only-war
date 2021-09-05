@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a01f1e9bcbb42964e96243c139770081, type: 3}
-  m_Name: WallEW
+  m_Script: {fileID: 11500000, guid: 36ef7cfdc03d25546a7a60f0f159330c, type: 3}
+  m_Name: Basic Wall
   m_EditorClassIdentifier: 
-  nameString: soWallEW
+  nameString: Basic Wall
   prefab: {fileID: 3331940205888607387, guid: 131a9a8a62780cf449eb741d636d6e6b, type: 3}
   visual: {fileID: 6034517575563767356, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
-  width: 1
-  height: 1
-  depth: 1
+  facing: 2
+  occupied: 1
+  traversible: 0

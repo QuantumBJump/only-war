@@ -15,19 +15,23 @@ public class GameState : MonoBehaviour
         Selected,
         Building,
     }
+    [SerializeField] public WallTypeSO[] wallTypes;
+
     
     public event EventHandler OnStateChanged;
     public State currentState;
 
+    public int y_level;
+
     private void Awake() {
         Instance = this;
+        currentState = State.Default;
     }
 
     public void Start() {
-        currentState = State.Default;
-        pathfinding = new Pathfinding(10, 10);
-        Test3DGrid testGrid = new Test3DGrid(10, 3, 10);
-        CameraHandler.Instance.SetLookLocation(pathfinding.GetGrid().GetGridObject(0, 0).GetCenter());
+        Test3DGrid testGrid = Test3DGrid.Instance;
+        pathfinding = new Pathfinding(testGrid.GetGrid());
+        CameraHandler.Instance.SetLookLocation(pathfinding.GetGrid().GetGridObject(0, 0, 0).GetPathNode().GetCenter());
         OnStateChanged += StateChanged_Deselect;
     }
 

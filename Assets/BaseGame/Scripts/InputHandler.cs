@@ -62,6 +62,10 @@ public class InputHandler : MonoBehaviour
 
         // Building Mode
         if (GameState.Instance.currentState == GameState.State.Building) {
+
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                GridBuildingSystem.Instance.NextPlacementMode();
+            }
             // Leave building mode
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 Debug.Log("Game mode: Default");
@@ -71,17 +75,17 @@ public class InputHandler : MonoBehaviour
 
             // Rotate building
             if (Input.GetKeyDown(KeyCode.R)) {
-                gridBuilder.RotateBuilding();
+                gridBuilder.RotateObject();
             }
 
             // Choose building to place
-            if (Input.GetKeyDown(KeyCode.Alpha1)) { gridBuilder.SelectBuilding(1); }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) { gridBuilder.SelectBuilding(2); }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) { gridBuilder.SelectBuilding(3); }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) { gridBuilder.SelectBuilding(4); }
-            if (Input.GetKeyDown(KeyCode.Alpha5)) { gridBuilder.SelectBuilding(5); }
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { gridBuilder.SelectObject(1); }
+            if (Input.GetKeyDown(KeyCode.Alpha2)) { gridBuilder.SelectObject(2); }
+            if (Input.GetKeyDown(KeyCode.Alpha3)) { gridBuilder.SelectObject(3); }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { gridBuilder.SelectObject(4); }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) { gridBuilder.SelectObject(5); }
 
-            if (Input.GetMouseButtonDown(0)) { gridBuilder.PlaceBuilding(); }
+            if (Input.GetMouseButtonDown(0)) { gridBuilder.PlaceObject(); }
             if (Input.GetMouseButtonDown(1)) { gridBuilder.DemolishBuilding(); }
         }
 
@@ -93,8 +97,11 @@ public class InputHandler : MonoBehaviour
             }
 
             if (Input.GetMouseButtonDown(0)) {
-                PlacedObject selectObject = gridBuilder.GetPlacedObject();
-                GameState.Instance.SelectObject(selectObject);
+                IPlaceable selectObject = gridBuilder.GetPlacedObject();
+                if (selectObject == null) { return; }
+                if (selectObject.GetType() == typeof(PlacedObject)) {
+                    GameState.Instance.SelectObject((PlacedObject)selectObject);
+                }
             }
         }
 
@@ -110,11 +117,14 @@ public class InputHandler : MonoBehaviour
                 }
 
                 if (Input.GetMouseButtonDown(0)) {
-                    Vector3 mousePos = Utils.GetMouseWorldPosition();
-                    Pathfinding.Instance.GetGrid().GetXZ(mousePos, out int endX, out int endZ);
+                    Vector3 mousePos = Utils.GetMouseWorldPositionWithCollider(Utils.floorLayerMask);
+                    Pathfinding.Instance.GetGrid().GetXYZ(mousePos, out int endX, out int endY, out int endZ);
                     selected.GetOrigin(out int startX, out int startZ);
-                    List<PathNode> path = Pathfinding.Instance.FindPath(startX, startZ, endX, endZ);
+                    List<PathNode> path = Pathfinding.Instance.FindPath(startX, 0, startZ, endX, endY, endZ);
                     if (path != null) {
+                        foreach (PathNode node in path) {
+                            Debug.Log("Next node: (" + node.x + "," + node.y + "," + node.z + ")");
+                        }
                         for (int i = 0; i < path.Count-1; i++) {
                             Debug.DrawLine(
                                 path[i].GetCenter(),

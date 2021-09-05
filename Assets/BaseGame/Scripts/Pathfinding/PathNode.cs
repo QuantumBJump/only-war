@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PathNode {
 
-    private GridMap<PathNode> grid;
+    private GridMap3D<GridNode3D> grid;
     public int x;
     public int y;
     public int z;
@@ -21,10 +21,11 @@ public class PathNode {
 
     public PathNode prevNode;
 
-    public PathNode(GridMap<PathNode> grid, int x, int y) {
+    public PathNode(GridMap3D<GridNode3D> grid, int x, int y, int z) {
         this.grid = grid;
         this.x = x;
         this.y = y;
+        this.z = z;
         this.walkable = true;
     }
 
@@ -33,7 +34,7 @@ public class PathNode {
     }
 
     public Vector3 GetCenter() {
-        Vector3 basePos = new Vector3(x * grid.GetCellSize(), 0, y * grid.GetCellSize());
+        Vector3 basePos = new Vector3(x * grid.GetCellSize(), 0, z * grid.GetCellSize());
         Vector3 correction = new Vector3(grid.GetCellSize() / 2, 0, grid.GetCellSize() / 2);
         return basePos + correction;
     }

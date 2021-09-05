@@ -43,9 +43,9 @@ public class UnitPathfinder : MonoBehaviour
         }
         Debug.Log(movePosition);
         Debug.Log(this.transform.position);
-        pathfinder.GetGrid().GetXZ(this.transform.position, out int startX, out int startZ);
-        pathfinder.GetGrid().GetXZ(movePosition, out int endX, out int endZ);
-        pathVectorList = pathfinder.FindPath_Vectors(startX, startZ, endX, endZ);
+        pathfinder.GetGrid().GetXYZ(this.transform.position, out int startX, out int startY, out int startZ);
+        pathfinder.GetGrid().GetXYZ(movePosition, out int endX, out int endY, out int endZ);
+        pathVectorList = pathfinder.FindPath_Vectors(startX, startY, startZ, endX, endY, endZ);
         if (pathVectorList.Count > 0) {
             pathIndex = 0;
         }

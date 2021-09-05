@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ef7cfdc03d25546a7a60f0f159330c, type: 3}
+  m_Name: WallTypeAir
+  m_EditorClassIdentifier: 
+  nameString: Air
+  prefab: {fileID: 399553451341101627, guid: baa6cf46052b6194393e59024c55054e, type: 3}
+  visual: {fileID: 5041321017516417093, guid: 86a3c8bc9dceb974380f63f4fb91c7b4, type: 3}
+  facing: 0

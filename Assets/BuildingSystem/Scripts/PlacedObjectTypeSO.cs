@@ -26,9 +26,8 @@ public class PlacedObjectTypeSO : ScriptableObject
     public Transform prefab;
     public Transform visual;
     public int width;
+    public int height;
     public int depth;
-
-    public TileContent tileContentType;
 
     public Vector2Int GetRotationOffset(Dir dir) {
         switch (dir) {
@@ -50,27 +49,36 @@ public class PlacedObjectTypeSO : ScriptableObject
         }
     }
 
-    public List<Vector2Int> GetGridPositionList(Vector2Int offset, Dir dir) {
-        List<Vector2Int> gridPositionList = new List<Vector2Int>();
+    public List<Vector3Int> GetGridPositionList(Vector3Int offset, Dir dir) {
+        List<Vector3Int> gridPositionList = new List<Vector3Int>();
         switch (dir) {
             default:
             case Dir.Down:
             case Dir.Up:
                 for (int x = 0; x < width; x++) {
-                    for (int y = 0; y < depth; y++) {
-                        gridPositionList.Add(offset + new Vector2Int(x, y));
+                    for (int y = 0; y < height; y++) {
+                        for (int z = 0; z < depth; z++) {
+                            gridPositionList.Add(offset + new Vector3Int(x, y, z));
+                            
+                        }
                     }
                 }
                 break;
             case Dir.Left:
             case Dir.Right:
                 for (int x = 0; x < depth; x++) {
-                    for (int y = 0; y < width; y++) {
-                        gridPositionList.Add(offset + new Vector2Int(x, y));
+                    for (int y = 0; y < height; y++) {
+                        for (int z = 0; z < width; z++) {
+                            gridPositionList.Add(offset + new Vector3Int(x, y, z));
+                        }
                     }
                 }
                 break;
         }
         return gridPositionList;
+    }
+
+    public IPlaceable GetPlaceable() {
+        return this.prefab.GetComponent<IPlaceable>();
     }
 }
