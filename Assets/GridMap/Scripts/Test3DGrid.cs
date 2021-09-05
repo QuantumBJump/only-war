@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,36 +10,24 @@ public enum Facing {
     West,
     Up,
     Down,
-    NorthEast,
-    NorthWest,
-    SouthEast,
-    SouthWest,
-    NorthUp,
-    EastUp,
-    SouthUp,
-    WestUp,
-    NorthEastUp,
-    NorthWestUp,
-    SouthEastUp,
-    SouthWestUp,
-    NorthDown,
-    EastDown,
-    SouthDown,
-    WestDown,
-    NorthEastDown,
-    NorthWestDown,
-    SouthEastDown,
-    SouthWestDown
 }
 
-public class Test3DGrid {
+public class Test3DGrid: MonoBehaviour{
     public static Test3DGrid Instance {get; private set;}
     private GridMap3D<GridNode3D> grid;
+    public event EventHandler OnSelectedChanged;
+
+    [SerializeField] private int width;
+    [SerializeField] private int height;
+    [SerializeField] private int depth;
+
 
     private Wall[] walls;
-    public Test3DGrid(int width, int height, int depth) {
+
+    private void Awake() {
         Instance = this;
-        grid = new GridMap3D<GridNode3D>(width, height, depth, 5f, (GridMap3D<GridNode3D> g, int x, int y, int z) => new GridNode3D(g, x, y, z), Vector3.zero, true);
+
+        grid = new GridMap3D<GridNode3D>(this.width, this.height, this.depth, 5f, (GridMap3D<GridNode3D> g, int x, int y, int z) => new GridNode3D(g, x, y, z), Vector3.zero, true);
     }
 
     public GridMap3D<GridNode3D> GetGrid() {
@@ -156,6 +145,10 @@ public class GridNode3D {
 
     }
 
+    public Wall GetWall(Facing facing) {
+        return walls[(int)facing];
+    }
+
     private Facing oppositeFacing(Facing initial) {
         switch (initial) {
         case Facing.North:
@@ -226,4 +219,28 @@ public class GridNode3D {
     public PathNode GetPathNode() {
         return pathNode;
     }
+
+    public bool CanBuild(IPlaceable toPlace) {
+        if (toPlace.GetType() == typeof(PlacedObject)) {
+            return this.placedObject == null;
+        } else if (toPlace.GetType() == typeof(Wall)) {
+            Wall wallToPlace = (Wall) toPlace;
+            Facing facing = wallToPlace.GetFacing();
+            if (this.walls[(int)facing].GetWallType().occupied) {
+                return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public PlacedObject GetPlacedObject() {
+        return this.placedObject;
+    }
+
+    public Vector3Int GetCoords() {
+        return new Vector3Int(this.x, this.y, this.z);
+    }
+
 }

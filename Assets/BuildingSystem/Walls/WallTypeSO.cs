@@ -9,6 +9,7 @@ public class WallTypeSO : ScriptableObject
     public Transform prefab;
     public Transform visual;
     public Facing facing;
+    public bool occupied;
 
     public bool traversible;
 

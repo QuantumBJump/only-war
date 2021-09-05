@@ -25,11 +25,11 @@ public class GameState : MonoBehaviour
 
     private void Awake() {
         Instance = this;
+        currentState = State.Default;
     }
 
     public void Start() {
-        currentState = State.Default;
-        Test3DGrid testGrid = new Test3DGrid(10, 3, 10);
+        Test3DGrid testGrid = Test3DGrid.Instance;
         pathfinding = new Pathfinding(testGrid.GetGrid());
         CameraHandler.Instance.SetLookLocation(pathfinding.GetGrid().GetGridObject(0, 0, 0).GetPathNode().GetCenter());
         OnStateChanged += StateChanged_Deselect;

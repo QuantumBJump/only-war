@@ -8,6 +8,7 @@ public static class Utils
 
     public const int sortingOrderDefault = 5000;
     public const int floorLayerMask = 1 << 6;
+    public const int unitLayerMask = 1 << 7;
 
     public static TextMeshPro CreateWorldText(string text, Transform parent = null, Vector3 localPosition = default(Vector3), int fontSize = 40, Color? color = null, TextContainerAnchors textAnchor = TextContainerAnchors.Middle, TextAlignmentOptions textAlignment = TextAlignmentOptions.Center, int sortingOrder = sortingOrderDefault)
     {
@@ -37,6 +38,16 @@ public static class Utils
         RaycastHit hitInfo;
         if (Physics.Raycast(ray, out hitInfo, 999f, floorLayerMask))
         {
+            return hitInfo.point;
+        }
+        return new Vector3(-1, 0, -1);
+    }
+
+    public static Vector3 GetMouseWorldPositionWithCollider(int collider) {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, 999f, collider)) {
+            Debug.Log("Hit, position: " + hitInfo.point);
             return hitInfo.point;
         }
         return new Vector3(-1, 0, -1);

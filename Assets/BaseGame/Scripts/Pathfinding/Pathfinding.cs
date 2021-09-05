@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Pathfinding {
 
-
     public static Pathfinding Instance {get; private set;}
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
@@ -34,8 +33,11 @@ public class Pathfinding {
     }
 
     public List<PathNode> FindPath(int startX, int startY, int startZ, int endX, int endY, int endZ) {
+        if (!grid.InBounds(endX, endY, endZ)) { return new List<PathNode> {}; } // No path if target is out of bounds
         PathNode startNode = grid.GetGridObject(startX, startY, startZ).GetPathNode();
+        Debug.Log("Finding path to (" + endX + "," + endY + "," + endZ + ")");
         PathNode endNode = grid.GetGridObject(endX, endY, endZ).GetPathNode();
+        if (!endNode.IsWalkable()) { return new List<PathNode> {}; } // No path if target isn't walkable
 
         openList = new List<PathNode> { startNode };
         closedList = new List<PathNode>();
@@ -98,28 +100,31 @@ public class Pathfinding {
         if (currentNode.x - 1 >= 0) {
             neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y, currentNode.z));
             if (currentNode.y - 1 >= 0) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y, currentNode.z - 1));
-            if (currentNode.y + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y, currentNode.z + 1));
+            if (currentNode.y + 1 < grid.GetDepth()) neighbourList.Add(GetNode(currentNode.x - 1, currentNode.y, currentNode.z + 1));
         }
         if (currentNode.x + 1 < grid.GetWidth()) {
             neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y, currentNode.z));
             if (currentNode.z - 1 >= 0) neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y, currentNode.z - 1));
-            if (currentNode.z + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y, currentNode.z + 1));
+            if (currentNode.z + 1 < grid.GetDepth()) neighbourList.Add(GetNode(currentNode.x + 1, currentNode.y, currentNode.z + 1));
         }
         if (currentNode.z - 1 >= 0) neighbourList.Add(GetNode(currentNode.x, currentNode.y, currentNode.z - 1));
-        if (currentNode.z + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.x, currentNode.y, currentNode.z + 1));
+        if (currentNode.z + 1 < grid.GetDepth()) neighbourList.Add(GetNode(currentNode.x, currentNode.y, currentNode.z + 1));
 
         return neighbourList;
     }
 
     public PathNode GetNode(int x, int y, int z) {
-        return grid.GetGridObject(x, y, z).GetPathNode();
+        if (grid.InBounds(x, y, z)) {
+            return grid.GetGridObject(x, y, z).GetPathNode();
+        }
+        return null;
     }
 
     private int CalculateDistanceCost(PathNode a, PathNode b) {
         int xDistance = Mathf.Abs(a.x - b.x);
-        int yDistance = Mathf.Abs(a.y - b.y);
-        int remaining = Mathf.Abs(xDistance - yDistance);
-        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
+        int zDistance = Mathf.Abs(a.z - b.z);
+        int remaining = Mathf.Abs(xDistance - zDistance);
+        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, zDistance) + MOVE_STRAIGHT_COST * remaining;
     }
 
     private PathNode GetLowestFCost(List<PathNode> pathNodeList) {

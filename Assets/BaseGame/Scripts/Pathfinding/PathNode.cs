@@ -34,7 +34,7 @@ public class PathNode {
     }
 
     public Vector3 GetCenter() {
-        Vector3 basePos = new Vector3(x * grid.GetCellSize(), 0, y * grid.GetCellSize());
+        Vector3 basePos = new Vector3(x * grid.GetCellSize(), 0, z * grid.GetCellSize());
         Vector3 correction = new Vector3(grid.GetCellSize() / 2, 0, grid.GetCellSize() / 2);
         return basePos + correction;
     }

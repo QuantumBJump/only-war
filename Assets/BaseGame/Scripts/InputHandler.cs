@@ -94,6 +94,7 @@ public class InputHandler : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0)) {
                 IPlaceable selectObject = gridBuilder.GetPlacedObject();
+                if (selectObject == null) { return; }
                 if (selectObject.GetType() == typeof(PlacedObject)) {
                     GameState.Instance.SelectObject((PlacedObject)selectObject);
                 }
@@ -112,11 +113,14 @@ public class InputHandler : MonoBehaviour
                 }
 
                 if (Input.GetMouseButtonDown(0)) {
-                    Vector3 mousePos = Utils.GetMouseWorldPosition();
+                    Vector3 mousePos = Utils.GetMouseWorldPositionWithCollider(Utils.floorLayerMask);
                     Pathfinding.Instance.GetGrid().GetXYZ(mousePos, out int endX, out int endY, out int endZ);
                     selected.GetOrigin(out int startX, out int startZ);
                     List<PathNode> path = Pathfinding.Instance.FindPath(startX, 0, startZ, endX, endY, endZ);
                     if (path != null) {
+                        foreach (PathNode node in path) {
+                            Debug.Log("Next node: (" + node.x + "," + node.y + "," + node.z + ")");
+                        }
                         for (int i = 0; i < path.Count-1; i++) {
                             Debug.DrawLine(
                                 path[i].GetCenter(),

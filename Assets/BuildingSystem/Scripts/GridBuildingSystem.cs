@@ -175,9 +175,12 @@ public class GridBuildingSystem : MonoBehaviour
     }
 
     public IPlaceable GetPlacedObject() {
-        Vector3 mousePos = Utils.GetMouseWorldPosition();
+        Vector3 mousePos = Utils.GetMouseWorldPositionWithCollider(Utils.unitLayerMask);
         grid.GetXYZ(mousePos, out int x, out int y, out int z);
         GridObject gridObject = grid.GetGridObject(x, y, z);
+        if (gridObject == null) {
+            return null;
+        }
         IPlaceable placedObject = gridObject.GetPlacedObject();
         return placedObject;
     }
