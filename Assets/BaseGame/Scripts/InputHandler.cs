@@ -62,6 +62,10 @@ public class InputHandler : MonoBehaviour
 
         // Building Mode
         if (GameState.Instance.currentState == GameState.State.Building) {
+
+            if (Input.GetKeyDown(KeyCode.Tab)) {
+                GridBuildingSystem.Instance.NextPlacementMode();
+            }
             // Leave building mode
             if (Input.GetKeyDown(KeyCode.Escape)) {
                 Debug.Log("Game mode: Default");
@@ -71,17 +75,17 @@ public class InputHandler : MonoBehaviour
 
             // Rotate building
             if (Input.GetKeyDown(KeyCode.R)) {
-                gridBuilder.RotateBuilding();
+                gridBuilder.RotateObject();
             }
 
             // Choose building to place
-            if (Input.GetKeyDown(KeyCode.Alpha1)) { gridBuilder.SelectBuilding(1); }
-            if (Input.GetKeyDown(KeyCode.Alpha2)) { gridBuilder.SelectBuilding(2); }
-            if (Input.GetKeyDown(KeyCode.Alpha3)) { gridBuilder.SelectBuilding(3); }
-            if (Input.GetKeyDown(KeyCode.Alpha4)) { gridBuilder.SelectBuilding(4); }
-            if (Input.GetKeyDown(KeyCode.Alpha5)) { gridBuilder.SelectBuilding(5); }
+            if (Input.GetKeyDown(KeyCode.Alpha1)) { gridBuilder.SelectObject(1); }
+            if (Input.GetKeyDown(KeyCode.Alpha2)) { gridBuilder.SelectObject(2); }
+            if (Input.GetKeyDown(KeyCode.Alpha3)) { gridBuilder.SelectObject(3); }
+            if (Input.GetKeyDown(KeyCode.Alpha4)) { gridBuilder.SelectObject(4); }
+            if (Input.GetKeyDown(KeyCode.Alpha5)) { gridBuilder.SelectObject(5); }
 
-            if (Input.GetMouseButtonDown(0)) { gridBuilder.PlaceBuilding(); }
+            if (Input.GetMouseButtonDown(0)) { gridBuilder.PlaceObject(); }
             if (Input.GetMouseButtonDown(1)) { gridBuilder.DemolishBuilding(); }
         }
 

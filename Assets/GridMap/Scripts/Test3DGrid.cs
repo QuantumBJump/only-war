@@ -22,8 +22,6 @@ public class Test3DGrid: MonoBehaviour{
     [SerializeField] private int depth;
 
 
-    private Wall[] walls;
-
     private void Awake() {
         Instance = this;
 
@@ -218,21 +216,6 @@ public class GridNode3D {
 
     public PathNode GetPathNode() {
         return pathNode;
-    }
-
-    public bool CanBuild(IPlaceable toPlace) {
-        if (toPlace.GetType() == typeof(PlacedObject)) {
-            return this.placedObject == null;
-        } else if (toPlace.GetType() == typeof(Wall)) {
-            Wall wallToPlace = (Wall) toPlace;
-            Facing facing = wallToPlace.GetFacing();
-            if (this.walls[(int)facing].GetWallType().occupied) {
-                return false;
-            }
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public PlacedObject GetPlacedObject() {

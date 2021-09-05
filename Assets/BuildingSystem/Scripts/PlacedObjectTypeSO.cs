@@ -77,4 +77,8 @@ public class PlacedObjectTypeSO : ScriptableObject
         }
         return gridPositionList;
     }
+
+    public IPlaceable GetPlaceable() {
+        return this.prefab.GetComponent<IPlaceable>();
+    }
 }

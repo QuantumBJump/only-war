@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34e5532937d67e43abdc3923998f5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  occupied: 1
 --- !u!1 &5692252957188788323
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,11 +108,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 868732347470977784, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 868732347470977784, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 887248081541615685, guid: ac85229fef0e7bf408418298cb63ead0, type: 3}
       propertyPath: m_Name

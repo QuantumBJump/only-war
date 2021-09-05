@@ -43,14 +43,26 @@ public class BuildingGhost : MonoBehaviour
             return;
         }
 
-        PlacedObjectTypeSO placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
+        if (GridBuildingSystem.Instance.placementMode == GridBuildingSystem.PlacementMode.Building) {
+            PlacedObjectTypeSO placedObjectTypeSO = GridBuildingSystem.Instance.GetPlacedObjectTypeSO();
 
-        if (placedObjectTypeSO != null) {
-            visual = Instantiate(placedObjectTypeSO.visual, Vector3.zero, Quaternion.identity);
-            visual.parent = transform;
-            visual.localPosition = Vector3.zero;
-            visual.localEulerAngles = Vector3.zero;
-            SetLayerRecursive(visual.gameObject, 11);
+            if (placedObjectTypeSO != null) {
+                visual = Instantiate(placedObjectTypeSO.visual, Vector3.zero, Quaternion.identity);
+                visual.parent = transform;
+                visual.localPosition = Vector3.zero;
+                visual.localEulerAngles = Vector3.zero;
+                SetLayerRecursive(visual.gameObject, 11);
+            }
+        } else if (GridBuildingSystem.Instance.placementMode == GridBuildingSystem.PlacementMode.Wall) {
+            WallTypeSO placedWallTypeSO = GridBuildingSystem.Instance.GetWallTypeSO();
+
+            if (placedWallTypeSO != null) {
+                visual = Instantiate(placedWallTypeSO.visual, Vector3.zero, Quaternion.identity);
+                visual.parent = transform;
+                visual.localPosition = Vector3.zero;
+                visual.localEulerAngles = Vector3.zero;
+                SetLayerRecursive(visual.gameObject, 11);
+            }
         }
     }
 

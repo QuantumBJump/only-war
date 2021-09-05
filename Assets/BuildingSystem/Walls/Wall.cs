@@ -8,6 +8,8 @@ public class Wall : MonoBehaviour, IPlaceable {
     private WallTypeSO wallType;
     private Facing facing;
 
+    [SerializeField] private bool occupied;
+
     public void DestroySelf() {
         Destroy(gameObject);
     }
@@ -41,8 +43,15 @@ public class Wall : MonoBehaviour, IPlaceable {
     public Facing GetFacing() {
         return this.facing;
     }
+    public void SetFacing(Facing facing) {
+        this.facing = facing;
+    }
 
     public WallTypeSO GetWallType() {
         return this.wallType;
+    }
+
+    public bool IsOccupied() {
+        return occupied;
     }
 }
